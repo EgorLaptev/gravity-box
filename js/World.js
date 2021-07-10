@@ -1,6 +1,7 @@
 'use strict';
 
 import Box from "./Box.js";
+import Cursor from "./Cursor.js";
 
 export default class World {
 
@@ -40,6 +41,7 @@ export default class World {
 
         // Render boxes
         Box.render();
+        Cursor.render();
 
     }
 
@@ -61,40 +63,40 @@ export default class World {
                 ) collisied = true;
             }
 
-            if( box.y + Box.height + box.speedY > cnv.height) {
-
-                if( box.falling ) {
-                    box.speedY = .01;
-                    box.y = cnv.height - Box.height;
-                    new Audio('../media/sounds/fallSound.mp3').play();
-                }
-
-                box.y = cnv.height - Box.height;
-                box.falling = false;
-
-            } else if(box.falling) {
-                box.speedY += World.gravity.power;
-                box.y += box.speedY;
-                box.falling = true;
-            }
-
-            if( collisied && box.falling ) {
-                box.falling = false;
-                new Audio('../media/sounds/fallSound.mp3').play();
-            }
-
-            // if( box.y + Box.height + box.speedY < cnv.height && !collisied ) {
-            //     box.speedY += (box.speedY < World.gravity.mfs) ? World.gravity.power : 0;
+            // if( box.y + Box.height + box.speedY > cnv.height) {
+            //
+            //     if( box.falling ) {
+            //         box.speedY = .01;
+            //         box.y = cnv.height - Box.height;
+            //         new Audio('../media/sounds/fallSound.mp3').play();
+            //     }
+            //
+            //     box.y = cnv.height - Box.height;
+            //     box.falling = false;
+            //
+            // } else if(box.falling) {
+            //     box.speedY += World.gravity.power;
             //     box.y += box.speedY;
             //     box.falling = true;
-            // } else {
-            //     if( box.y + Box.height > cnv.height - 1) {
-            //         if( box.falling ) new Audio('../media/sounds/fallSound.mp3').play();
-            //         box.y = cnv.height - Box.height;
-            //         box.falling = false;
-            //     }
-            //     box.speedY = 0;
             // }
+            //
+            // if( collisied && box.falling ) {
+            //     box.falling = false;
+            //     new Audio('../media/sounds/fallSound.mp3').play();
+            //}
+
+            if( box.y + Box.height + box.speedY < cnv.height && !collisied ) {
+                box.speedY += (box.speedY < World.gravity.mfs) ? World.gravity.power : 0;
+                box.y += box.speedY;
+                box.falling = true;
+            } else {
+                if( box.y + Box.height > cnv.height - 1) {
+                    if( box.falling ) new Audio('../media/sounds/fallSound.mp3').play();
+                    box.y = cnv.height - Box.height;
+                    box.falling = false;
+                }
+                box.speedY = 0;
+            }
 
         }
 

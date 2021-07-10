@@ -2,6 +2,7 @@
 
 import Box from "./Box.js";
 import World from "./World.js";
+import Cursor from "./Cursor.js";
 
 window.cnv = document.getElementById('world');
 window.ctx = cnv.getContext('2d');
@@ -19,3 +20,8 @@ window.addEventListener('resize', e => {
     cnv.width  = window.innerWidth;
     cnv.height = window.innerHeight;
 });
+
+document.addEventListener('mousemove', e => {
+        Cursor.x = e.clientX - Box.width / 2;
+        Cursor.y = e.clientY - Box.height / 2;
+})

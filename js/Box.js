@@ -30,6 +30,9 @@ export default class Box {
         for ( const box of Box.list )
             ctx.drawImage(boxImage, box.x, box.y, Box.width, Box.height);
 
+
+
+
     }
 
 }
