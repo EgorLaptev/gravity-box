@@ -12,13 +12,32 @@ export default class Box {
 
     constructor(x, y) {
 
+        let canSpawn = true;
+
         this.speedY = 0;
         this.falling = true;
 
         this.x = x;
         this.y = y;
 
-        Box.list.push(this)
+        const spawnSound = new Audio();
+        spawnSound.volume = .5;
+
+        for ( const box of Box.list )
+            if (
+                    this.y <= (box.y + Box.height) &&
+                    this.x <= (box.x + Box.width) &&
+                    (this.x + Box.width) >= box.x &&
+                    (this.y + Box.height) >= box.y &&
+                    this !== box
+            ) canSpawn = false;
+
+        if ( canSpawn ) {
+            spawnSound.src = '../media/sounds/error.mp3';
+            Box.list.push(this)
+        } else spawnSound.src = '../media/sounds/error2.mp3';
+
+        spawnSound.play();
 
     }
 
@@ -29,9 +48,6 @@ export default class Box {
 
         for ( const box of Box.list )
             ctx.drawImage(boxImage, box.x, box.y, Box.width, Box.height);
-
-
-
 
     }
 
